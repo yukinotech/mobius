@@ -1,5 +1,5 @@
 {
-  "name": "@mobius/mobius",
+  "name": "@yukinotech/mobius",
   "version": "1.0.0",
   "description": "find all circular dependency for typescript",
   "main": "./build/index.js",
