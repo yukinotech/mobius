@@ -21,7 +21,8 @@
   "files": [
     "build/**/*"
   ],
-  "author": "",
+  "repository": "https://github.com/yukinotech/mobius",
+  "author": "yukinotech",
   "license": "MIT",
   "devDependencies": {
     "@swc/cli": "^0.1.62",
