@@ -11,12 +11,12 @@ export const parseTsConfig = (tsConfigPath: string | undefined) => {
   const compilerOptions = ts.parseJsonSourceFileConfigFileContent(
     tsParsedConfig,
     ts.sys,
-    path.dirname(tsConfigPath)
+    path.dirname(tsConfigPath),
   ).options
 
   const parsedCompilerOptions = ts.convertCompilerOptionsFromJson(
     compilerOptions,
-    tsConfigPath
+    tsConfigPath,
   ).options
 
   return parsedCompilerOptions

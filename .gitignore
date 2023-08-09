@@ -5,3 +5,4 @@ tsc-build
 pnpm-lock.yaml
 code.md
 code.md
+src/version.ts

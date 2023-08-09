@@ -7,7 +7,7 @@ make find all circular dependency in typescript easy
 ## cli
 
 ```
-npm i -g @mobius/mobius
+npm i -g @yukinotech/mobius
 ```
 
 ```
@@ -23,11 +23,11 @@ mobius run my-project-dir -t my-project-dir/tsconfig.json
 ## module
 
 ```
-npm i @mobius/mobius
+npm i @yukinotech/mobius
 ```
 
 ```ts
-import mobius from '@mobius/mobius'
+import mobius from '@yukinotech/mobius'
 
 const main = async()=>{
   const circleList = await mobius({

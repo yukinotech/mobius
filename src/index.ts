@@ -9,7 +9,7 @@ import { recursiveReadDir } from './recursiveReadDir'
 const processArrayWithWorker = async <T extends string>(
   data: T[],
   threadNum: number,
-  tsCompilerOption: CompilerOptions
+  tsCompilerOption: CompilerOptions,
 ): Promise<Record<string, ImportedModule[]>> => {
   const totalChunks = Math.min(threadNum, data.length)
   const chunkSize = Math.ceil(data.length / totalChunks)
@@ -25,16 +25,19 @@ const processArrayWithWorker = async <T extends string>(
   const results = await Promise.all(promises)
 
   // merge all result
-  const mergedResult = results.reduce((pre, current) => {
-    return Object.assign(pre, current)
-  }, {} as Record<string, ImportedModule[]>)
+  const mergedResult = results.reduce(
+    (pre, current) => {
+      return Object.assign(pre, current)
+    },
+    {} as Record<string, ImportedModule[]>,
+  )
 
   return mergedResult
 }
 
 const traverseArray = async <T extends string>(
   arr: T[],
-  tsCompilerOption: CompilerOptions
+  tsCompilerOption: CompilerOptions,
 ): Promise<Record<string, ImportedModule[]>> => {
   const res = await parseFileWorkerTask({
     tsCompilerOption,
@@ -51,13 +54,11 @@ const mobius = async ({
 }: {
   tsConfigPath?: string
   projectDir: string
-  threadNum?: number // thread number
+  threadNum: number // thread number
 }) => {
-  if (!threadNum) {
-    threadNum = 4
-  }
-
+  debug('recursiveReadDir start')
   const fileList = await recursiveReadDir(projectDir)
+  debug('recursiveReadDir end')
   debug('fileList', fileList)
 
   const filterFileList = fileList.filter((item) => {
@@ -69,16 +70,10 @@ const mobius = async ({
 
   debug('parsedCompilerOptions', parsedCompilerOptions)
 
-  const res = await processArrayWithWorker(
-    filterFileList,
-    threadNum,
-    parsedCompilerOptions
-  )
+  const res = await processArrayWithWorker(filterFileList, threadNum, parsedCompilerOptions)
 
   const cycles = findCycles(res)
   return cycles
 }
 
 export default mobius
-
-

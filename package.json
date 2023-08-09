@@ -1,16 +1,17 @@
 {
   "name": "@yukinotech/mobius",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "find all circular dependency for typescript",
   "main": "./build/index.js",
   "bin": {
     "mobius": "./build/bin/mobius"
   },
   "scripts": {
+    "prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
     "build:swc": "swc src -d build --config-file .swcrc",
     "build:tsc": "tsc",
     "build": "sh build.sh",
-    "dev": "sh build.sh && npx mobius -h",
+    "dev": "yarn prebuild && yarn build && chmod 777 ./build/bin/mobius && ./build/bin/mobius",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:demo1": "swc test -d test-build --config-file .swcrc && NODE_DEBUG=mobius node ./test-build/demo1/D.js"
   },
@@ -27,11 +28,12 @@
   "devDependencies": {
     "@swc/cli": "^0.1.62",
     "@types/node": "^20.4.5",
-    "@types/yargs": "^17.0.24"
+    "prettier": "^3.0.1"
   },
   "dependencies": {
     "@swc/core": "^1.3.69",
-    "typescript": "^5.1.6",
-    "yargs": "^17.7.2"
+    "chalk": "^4.1.2",
+    "commander": "^11.0.0",
+    "typescript": "^5.1.6"
   }
 }

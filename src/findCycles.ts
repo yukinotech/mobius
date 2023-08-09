@@ -1,8 +1,6 @@
 import type { ImportedModule } from './parseSingleFile'
 
-export const findCycles = (
-  graph: Record<string, ImportedModule[]>
-): string[][] => {
+export const findCycles = (graph: Record<string, ImportedModule[]>): string[][] => {
   const cycles: string[][] = []
   const visited: Set<string> = new Set()
   const onStack: Set<string> = new Set()

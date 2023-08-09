@@ -78,18 +78,16 @@ export const parseSingleFile = async ({
   const importFile = findImportFileList(res)
 
   for (let i = 0; i < importFile.length; i++) {
-    const namedModule = ts.resolveModuleName(
-      importFile[i].value,
-      codePath,
-      tsCompilerOption,
-      host
-    )
+    let namedModule: undefined | ts.ResolvedModuleWithFailedLookupLocations
+    try {
+      namedModule = ts.resolveModuleName(importFile[i].value, codePath, tsCompilerOption, host)
+      debug('resolvedFileName', namedModule?.resolvedModule?.resolvedFileName)
+    } catch (e) {
+      debug('resolvedFileName error', e)
+    }
 
-    debug('resolvedFileName', namedModule?.resolvedModule?.resolvedFileName)
-
-    importFile[i].resolvedFileName = namedModule.resolvedModule
-      ?.resolvedFileName
-      ? path.resolve(namedModule.resolvedModule?.resolvedFileName)
+    importFile[i].resolvedFileName = namedModule?.resolvedModule?.resolvedFileName
+      ? path.resolve(namedModule?.resolvedModule?.resolvedFileName)
       : undefined
   }
 
@@ -109,10 +107,7 @@ export const parseSingleFile = async ({
     })
     .filter((item) => {
       // filter which is not js or ts,such as import img，import css
-      return (
-        item.resolvedFileName?.endsWith('.ts') ||
-        item.resolvedFileName?.endsWith('.tsx')
-      )
+      return item.resolvedFileName?.endsWith('.ts') || item.resolvedFileName?.endsWith('.tsx')
     })
 
   debug('importFileClean', importFileClean)
