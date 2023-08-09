@@ -59,3 +59,7 @@ const main = async()=>{
   })
 }
 ```
+
+# RoadMap
+ - optimizing CLI interaction
+ - auto find and analysis tsconfig
