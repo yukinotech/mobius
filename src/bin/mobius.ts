@@ -73,7 +73,12 @@ program
       projectDir: absoluteCodeDirPath,
       threadNum,
     })
-    console.log(circle)
+    if (circle.length !== 0) {
+      console.log('circular dependency:')
+      console.log(circle)
+    } else {
+      console.log('✅ congratulations , no circular dependency in project')
+    }
   })
 
 program.parse(process.argv)
