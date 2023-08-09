@@ -6,9 +6,13 @@ make find all circular dependency in typescript easy
 
 ## cli
 
+### install
+
 ```shell
 npm i -g @yukinotech/mobius
 ```
+
+### find circular dependency
 
 ```shell
 mobius run [my-project-dir-path] -t [my-project-tsconfig.json-path]
@@ -28,6 +32,7 @@ mobius help [command]
 ```
 
 e.g
+
 ```shell
 => mobius help run
 
@@ -61,5 +66,6 @@ const main = async()=>{
 ```
 
 # RoadMap
- - optimizing CLI interaction
- - auto find and analysis tsconfig
+
+- optimizing CLI interaction
+- auto find and analysis tsconfig
