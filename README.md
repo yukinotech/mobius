@@ -6,23 +6,45 @@ make find all circular dependency in typescript easy
 
 ## cli
 
-```
+```shell
 npm i -g @yukinotech/mobius
 ```
 
-```
+```shell
 mobius run [my-project-dir-path] -t [my-project-tsconfig.json-path]
 ```
 
 e.g
 
+```shell
+cd my-project //  my-project is a typescript project
+mobius run ./ -t ./tsconfig.json
 ```
-mobius run my-project-dir -t my-project-dir/tsconfig.json
+
+### get help from cli
+
+```shell
+mobius help [command]
+```
+
+e.g
+```shell
+=> mobius help run
+
+Usage: mobius run [options] <codeDirPath>
+
+Run a script
+
+Options:
+  -t, --tsConfigPath <path>  Path to tsconfig.json
+  -d, --debug                Enable debugging
+  -s, --thread <threads>     thread number
+  -h, --help                 display help for command
 ```
 
 ## module
 
-```
+```shell
 npm i @yukinotech/mobius
 ```
 
@@ -33,7 +55,7 @@ const main = async()=>{
   const circleList = await mobius({
     tsConfigPath: 'tsConfigPath'
     projectDir: 'projectDirPath'
-    threadNum: 6 // make run with multiple thread，if your project is huge , default value is 4
+    threadNum: 6 // make run with multiple thread
   })
 }
 ```
