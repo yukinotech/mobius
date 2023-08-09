@@ -53,8 +53,8 @@ import mobius from '@yukinotech/mobius'
 
 const main = async()=>{
   const circleList = await mobius({
-    tsConfigPath: 'tsConfigPath'
-    projectDir: 'projectDirPath'
+    tsConfigPath: '/Users/xxxx/workspace/project-name/tsconfig.json'
+    projectDir: '/Users/xxxx/workspace/project-name'
     threadNum: 6 // make run with multiple thread
   })
 }
