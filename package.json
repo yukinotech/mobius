@@ -1,6 +1,6 @@
 {
   "name": "@yukinotech/mobius",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "find all circular dependency for typescript",
   "main": "./build/index.js",
   "bin": {

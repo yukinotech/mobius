@@ -13,7 +13,7 @@ export const parseFileWorkerTask = async ({
 }): Promise<Record<string, ImportedModule[]>> => {
   debug('call parseSingleFileWorker')
 
-  const worker = new Worker(path.join(__dirname, '../worker/parseFileWorker'), {
+  const worker = new Worker(path.join(__dirname, '../worker/parseFileWorker.js'), {
     workerData: {
       codePathList,
       tsCompilerOption,
