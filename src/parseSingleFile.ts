@@ -4,6 +4,7 @@ import path from 'path'
 import ts from 'typescript'
 import type { CompilerOptions } from 'typescript'
 import { debug } from './debug'
+import { isCodeFile } from './utils'
 
 export type ImportedModule = {
   typeOnly: boolean | undefined
@@ -107,7 +108,7 @@ export const parseSingleFile = async ({
     })
     .filter((item) => {
       // filter which is not js or ts,such as import img，import css
-      return item.resolvedFileName?.endsWith('.ts') || item.resolvedFileName?.endsWith('.tsx')
+      return isCodeFile(item.resolvedFileName)
     })
 
   debug('importFileClean', importFileClean)

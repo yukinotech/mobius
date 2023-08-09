@@ -2,6 +2,11 @@
 
 make find all circular dependency in typescript easy
 
+support:
+ - now only support typescript witch use import instead of require() 
+ - typescript alias
+ - auto ignore typescript import type
+
 # usage
 
 ## cli

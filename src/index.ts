@@ -5,6 +5,7 @@ import { parseFileWorkerTask } from './task/parseFileWorkerTask'
 import type { ImportedModule } from './parseSingleFile'
 import { parseTsConfig } from './parseTsConfig'
 import { recursiveReadDir } from './recursiveReadDir'
+import { isCodeFile } from './utils'
 
 const processArrayWithWorker = async <T extends string>(
   data: T[],
@@ -62,7 +63,7 @@ const mobius = async ({
   debug('fileList', fileList)
 
   const filterFileList = fileList.filter((item) => {
-    return item.endsWith('.tsx') || item.endsWith('.ts')
+    return isCodeFile(item)
   })
   debug('filterFileList', filterFileList)
 
