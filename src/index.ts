@@ -3,9 +3,8 @@ import { findCycles } from './findCycles'
 import { debug } from './debug'
 import { parseFileWorkerTask } from './task/parseFileWorkerTask'
 import { parseTsConfig } from './parseTsConfig'
-import { recursiveReadDir } from './recursiveReadDir'
-import { isCodeFile } from './utils'
-import type { ImportedModule, Mode } from './types'
+import { isCodeFile, isFile, isSubPath, recursiveReadDir } from './utils'
+import type { ImportedModule, Mode } from './interface'
 
 const processArrayWithWorker = async <T extends string>(
   data: T[],
@@ -56,20 +55,34 @@ const mobius = async ({
   projectDir,
   threadNum,
   mode,
+  excludeFiles,
 }: {
   tsConfigPath?: string
   projectDir: string
-  threadNum: number // thread number
+  threadNum?: number // thread number
   mode: Mode
+  excludeFiles?: string[]
 }) => {
+  if (!threadNum) {
+    threadNum = 4
+  }
   debug('recursiveReadDir start')
   const fileList = await recursiveReadDir(projectDir)
   debug('recursiveReadDir end')
   debug('fileList', fileList)
 
   const filterFileList = fileList.filter((item) => {
-    return isCodeFile(item, mode)
+    if (!isCodeFile(item, mode)) {
+      return false
+    }
+    if (excludeFiles) {
+      return !excludeFiles.some((parentPath) => {
+        return isSubPath(parentPath, item)
+      })
+    }
+    return true
   })
+
   debug('filterFileList', filterFileList)
 
   const parsedCompilerOptions = mode === 'typescript' ? parseTsConfig(tsConfigPath) : undefined

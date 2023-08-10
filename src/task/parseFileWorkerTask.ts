@@ -2,7 +2,7 @@ import { Worker } from 'worker_threads'
 import path from 'path'
 import { debug } from '../debug'
 import type { CompilerOptions } from 'typescript'
-import type { Mode, ImportedModule } from '../types'
+import type { Mode, ImportedModule } from '../interface'
 
 export const parseFileWorkerTask = async ({
   codePathList,

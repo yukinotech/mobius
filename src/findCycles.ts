@@ -1,4 +1,4 @@
-import type { ImportedModule } from './types'
+import type { ImportedModule } from './interface'
 
 export const findCycles = (graph: Record<string, ImportedModule[]>): string[][] => {
   const cycles: string[][] = []

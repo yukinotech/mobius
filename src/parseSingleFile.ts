@@ -5,7 +5,7 @@ import ts from 'typescript'
 import type { CompilerOptions } from 'typescript'
 import { debug } from './debug'
 import { isCodeFile } from './utils'
-import type { Mode } from './types'
+import type { Mode } from './interface'
 import { parseTsSingleFile } from './parseTsSingleFile'
 import { parseCommonjsSingleFile } from './parseCommonjsSingleFile'
 

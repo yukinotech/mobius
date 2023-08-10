@@ -5,7 +5,7 @@ import ts from 'typescript'
 import type { CompilerOptions } from 'typescript'
 import { debug } from './debug'
 import { isCodeFile } from './utils'
-import type { ImportedModule } from './types'
+import type { ImportedModule } from './interface'
 
 const host = ts.createCompilerHost({})
 
@@ -66,6 +66,7 @@ export const parseTsSingleFile = async (
   const res = await swc.parse(sourceCode, {
     syntax: 'typescript',
     tsx: codePath?.endsWith('.tsx') ? true : false,
+    decorators: true,
   })
 
   const importFile = findImportFileList(res)

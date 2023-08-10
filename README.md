@@ -47,21 +47,26 @@ Usage: mobius run [options] <codeDirPath>
 Run a script
 
 Options:
-  -t, --tsConfigPath <path>  Path to tsconfig.json
-  -d, --debug                Enable debugging
-  -s, --thread <threads>     thread number
-  -h, --help                 display help for command
+  -d, --debug                    Enable debugging
+  -e, --exclude <exclude files>  exclude file
+  -t, --tsConfigPath <path>      Path to tsconfig.json
+  -m, --mode <mode type>         mode type "typescript"|"commonjs"|"esm"
+  -s, --thread <threads>         thread number
+  -h, --help                     display help for command
 ```
 
-### some tips for use cli
+### some tips for using cli
+
+#### mixed project
 
 In most projects, apart from the source code, there are many non-source code components, such as tests.
 
 Here is an example: `./src` contains `TypeScript` code and `./test` contains `commonjs` code.
+
 ```
 my-node-project/
 │
-├─ src/  
+├─ src/
 │  ├─ index.ts
 │  ├─ utils/
 │  │  ├─ helper.ts
@@ -104,6 +109,52 @@ mobius run ./test -m commonjs
 
 If the -m parameter is not provided like just use `mobius run ./` in project like this, the program might produce confusing results.
 
+#### for typescript
+
+##### why tsconfig.json is import
+
+Q: why need a tsconfig.json?
+A: because typescript may have alias for path just like
+
+tsconfig.json
+
+```json
+"paths": {
+  "components/*": ["components/*"]
+}
+```
+
+According to the tsconfig.json, the program can determine that the actual path of `@components/bridge` is `project-path/components/bridge`
+
+```ts
+import bridge from '@components/bridge'
+```
+
+##### How to avoid circular dependency interference caused by having only type files
+
+A file which only import and export `type` and `interface` can be ignored in a circular dependency loop
+
+You can use import type to ignore just like
+
+```ts
+import type { Locale } from './locale/interface'
+```
+
+instead of
+
+```ts
+import { Locale } from './locale/interface'
+```
+
+mobius will ignore files that are only imported for type definitions
+
+Perhaps mobius might support automatic inference in the future, but this could significantly increase the program's overhead.
+
+Another way to ignore is to add ignore file with `-e` to exclude files.
+
+```ts
+mobius run ./ -t tsconfig.json -e ./src/interface.ts,./src/types
+```
 
 ## module
 
@@ -114,11 +165,13 @@ npm i @yukinotech/mobius
 ```ts
 import mobius from '@yukinotech/mobius'
 
-const main = async()=>{
+const main = async() => {
   const circleList = await mobius({
     tsConfigPath: '/Users/xxxx/workspace/project-name/tsconfig.json'
     projectDir: '/Users/xxxx/workspace/project-name'
     threadNum: 6 // make run with multiple thread
+    mode: 'typescript',
+    exclude: ['/Users/xxxx/workspace/project-name/test','/Users/xxxx/workspace/project-name/script']
   })
 }
 ```
@@ -128,3 +181,4 @@ const main = async()=>{
 - optimizing CLI interaction
 - auto find and analysis tsconfig
 - support nodejs esm
+- -e support glob token
