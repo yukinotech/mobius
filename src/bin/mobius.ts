@@ -28,6 +28,7 @@ program
   .command('run <codeDirPath>')
   .description('Run a script')
   .option('-d, --debug', 'Enable debugging')
+  .option('-e, --exclude <exclude files>', 'exclude file')
   .option('-t, --tsConfigPath <path>', 'Path to tsconfig.json')
   .option('-m, --mode <mode type>', 'mode type "typescript"|"commonjs"|"esm"')
   .option('-s, --thread <threads>', 'thread number', (value) => {
@@ -67,6 +68,7 @@ program
       process.exit(1)
     }
 
+    // handle threadNum
     let threadNum
     if (!cmdObj?.thread) {
       threadNum = 4
@@ -79,6 +81,29 @@ program
       process.exit(1)
     }
 
+    // handle exclude files
+    const excludeFiles: string[] = []
+    if (cmdObj?.exclude) {
+      const splitValue =
+        cmdObj?.exclude
+          ?.split(',')
+          ?.map((excludeFilePath: string) => {
+            try {
+              return path.resolve(process.cwd(), excludeFilePath)
+            } catch (e) {
+              return undefined
+            }
+          })
+          ?.filter((path: string | undefined) => {
+            return !!path
+          }) || []
+
+      // splitValue might include dir，which will be handle later
+      excludeFiles.push(...splitValue)
+    }
+
+    debug('parse exclude files', excludeFiles)
+
     const absoluteTsConfigPath = tsConfigPath && path.resolve(process.cwd(), tsConfigPath)
     debug('absoluteTsConfigPath', absoluteTsConfigPath)
     const absoluteCodeDirPath = path.resolve(process.cwd(), codeDirPath)
@@ -89,10 +114,11 @@ program
       projectDir: absoluteCodeDirPath,
       threadNum,
       mode,
+      excludeFiles,
     })
     if (circle.length !== 0) {
       console.log('circular dependency:')
-      console.log(circle)
+      console.log(JSON.stringify(circle, null, 2))
     } else {
       console.log('✅ congratulations , no circular dependency in project')
     }

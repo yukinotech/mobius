@@ -7,7 +7,7 @@ import ts from 'typescript'
 import type { CompilerOptions } from 'typescript'
 import { debug } from './debug'
 import { isCodeFile } from './utils'
-import type { ImportedModule } from './types'
+import type { ImportedModule } from './interface'
 
 const visit = (node: any, list: string[]) => {
   if (

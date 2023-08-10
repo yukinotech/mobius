@@ -1,7 +1,7 @@
 import { Worker, parentPort, workerData } from 'worker_threads'
 import { parseSingleFile } from '../parseSingleFile'
 import type { CompilerOptions } from 'typescript'
-import type { ImportedModule, Mode } from '../types'
+import type { ImportedModule, Mode } from '../interface'
 
 const main = async () => {
   const typedWorkerData = workerData as {
