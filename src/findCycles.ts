@@ -1,4 +1,4 @@
-import type { ImportedModule } from './parseSingleFile'
+import type { ImportedModule } from './types'
 
 export const findCycles = (graph: Record<string, ImportedModule[]>): string[][] => {
   const cycles: string[][] = []

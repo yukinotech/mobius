@@ -27,8 +27,9 @@ program.version(LIB_VERSION).option('-h, --help', 'Show help')
 program
   .command('run <codeDirPath>')
   .description('Run a script')
-  .option('-t, --tsConfigPath <path>', 'Path to tsconfig.json')
   .option('-d, --debug', 'Enable debugging')
+  .option('-t, --tsConfigPath <path>', 'Path to tsconfig.json')
+  .option('-m, --mode <mode type>', 'mode type "typescript"|"commonjs"|"esm"')
   .option('-s, --thread <threads>', 'thread number', (value) => {
     return parseInt(value)
   })
@@ -40,9 +41,24 @@ program
       debug('cmdObj', cmdObj)
     }
 
-    const tsConfigPath = cmdObj?.tsConfigPath
+    const tsConfigPath = cmdObj?.tsConfigPath as string
+    let mode = cmdObj.mode as string
 
-    if (typeof tsConfigPath !== 'string') {
+    if (!mode) {
+      if (typeof tsConfigPath !== 'string') {
+        console.error('Error: must provide -m mode : "typescript" | "commonjs" | "esm"')
+        process.exit(1)
+      } else {
+        mode = 'typescript'
+      }
+    }
+
+    if (mode !== 'typescript' && mode !== 'commonjs' && mode !== 'esm') {
+      console.error('Error: -m mode must be "typescript" | "commonjs" | "esm"')
+      process.exit(1)
+    }
+
+    if (typeof tsConfigPath !== 'string' && mode === 'typescript') {
       console.error('Error: tsConfigPath error, tsConfigPath is not string')
       process.exit(1)
     }
@@ -63,7 +79,7 @@ program
       process.exit(1)
     }
 
-    const absoluteTsConfigPath = path.resolve(process.cwd(), tsConfigPath)
+    const absoluteTsConfigPath = tsConfigPath && path.resolve(process.cwd(), tsConfigPath)
     debug('absoluteTsConfigPath', absoluteTsConfigPath)
     const absoluteCodeDirPath = path.resolve(process.cwd(), codeDirPath)
     debug('absoluteCodeDirPath', absoluteCodeDirPath)
@@ -72,6 +88,7 @@ program
       tsConfigPath: absoluteTsConfigPath,
       projectDir: absoluteCodeDirPath,
       threadNum,
+      mode,
     })
     if (circle.length !== 0) {
       console.log('circular dependency:')
