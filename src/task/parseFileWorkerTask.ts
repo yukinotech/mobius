@@ -1,15 +1,17 @@
 import { Worker } from 'worker_threads'
 import path from 'path'
-import type { ImportedModule } from '../parseSingleFile'
 import { debug } from '../debug'
 import type { CompilerOptions } from 'typescript'
+import type { Mode, ImportedModule } from '../types'
 
 export const parseFileWorkerTask = async ({
   codePathList,
   tsCompilerOption,
+  mode,
 }: {
   codePathList: string[]
-  tsCompilerOption: CompilerOptions
+  tsCompilerOption: CompilerOptions | undefined
+  mode: Mode
 }): Promise<Record<string, ImportedModule[]>> => {
   debug('call parseSingleFileWorker')
 
@@ -17,6 +19,7 @@ export const parseFileWorkerTask = async ({
     workerData: {
       codePathList,
       tsCompilerOption,
+      mode,
     },
   })
 
