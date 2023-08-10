@@ -47,10 +47,12 @@ Usage: mobius run [options] <codeDirPath>
 Run a script
 
 Options:
-  -t, --tsConfigPath <path>  Path to tsconfig.json
-  -d, --debug                Enable debugging
-  -s, --thread <threads>     thread number
-  -h, --help                 display help for command
+  -d, --debug                    Enable debugging
+  -e, --exclude <exclude files>  exclude file
+  -t, --tsConfigPath <path>      Path to tsconfig.json
+  -m, --mode <mode type>         mode type "typescript"|"commonjs"|"esm"
+  -s, --thread <threads>         thread number
+  -h, --help                     display help for command
 ```
 
 ### some tips for using cli
@@ -179,3 +181,4 @@ const main = async() => {
 - optimizing CLI interaction
 - auto find and analysis tsconfig
 - support nodejs esm
+- -e support glob token
