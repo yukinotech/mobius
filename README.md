@@ -153,7 +153,7 @@ Perhaps mobius might support automatic inference in the future, but this could s
 Another way to ignore is to add ignore file with `-e` to exclude files.
 
 ```ts
-mobius run ./ -t tsconfig.json -e ./src/interface.ts,./src/components/interface.ts
+mobius run ./ -t tsconfig.json -e ./src/interface.ts,./src/types
 ```
 
 ## module
