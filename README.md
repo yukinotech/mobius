@@ -179,4 +179,3 @@ const main = async() => {
 - optimizing CLI interaction
 - auto find and analysis tsconfig
 - support nodejs esm
-- add `-e` to exclude files
