@@ -127,4 +127,4 @@ const main = async()=>{
 
 - optimizing CLI interaction
 - auto find and analysis tsconfig
-- support nodejs commonjs and esm
+- support nodejs esm
