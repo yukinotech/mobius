@@ -117,8 +117,9 @@ program
       excludeFiles,
     })
     if (circle.length !== 0) {
-      console.log('circular dependency:')
+      console.log('Error❌: detect circular dependency')
       console.log(JSON.stringify(circle, null, 2))
+      process.exit(1)
     } else {
       console.log('✅ congratulations , no circular dependency in project')
     }
