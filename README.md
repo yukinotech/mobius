@@ -15,7 +15,7 @@ support:
 ### install
 
 ```shell
-npm i -g @yukinotech/mobius
+npm i -g @ykn/mobius
 ```
 
 ### find circular dependency
@@ -159,11 +159,11 @@ mobius run ./ -t tsconfig.json -e ./src/interface.ts,./src/types
 ## module
 
 ```shell
-npm i @yukinotech/mobius
+npm i @ykn/mobius
 ```
 
 ```ts
-import mobius from '@yukinotech/mobius'
+import mobius from '@ykn/mobius'
 
 const main = async() => {
   const circleList = await mobius({
