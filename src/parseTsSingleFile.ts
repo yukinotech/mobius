@@ -10,7 +10,7 @@ import type { ImportedModule } from './interface'
 const host = ts.createCompilerHost({})
 
 const findImportFileList = (ast: swc.Module): ImportedModule[] => {
-  const list = []
+  const list: ImportedModule[] = []
   for (let i = 0; i < ast.body.length; i++) {
     const item = ast.body[i]
     if (item.type === 'ImportDeclaration') {
@@ -18,9 +18,19 @@ const findImportFileList = (ast: swc.Module): ImportedModule[] => {
       // import * as A from './A'
       // import { A } from './A'
       // import './A'
+
+      // such as import { type A, type B } from './A' only import type
+      const allSpecifierIsType =
+        item?.specifiers?.filter((importSpecifier) => {
+          // @ts-ignore
+          if (importSpecifier?.isTypeOnly === true) {
+            return true
+          }
+        })?.length === item?.specifiers?.length
+
       list.push({
         value: item.source.value,
-        typeOnly: item.typeOnly,
+        typeOnly: item.typeOnly || allSpecifierIsType,
         resolvedFileName: undefined,
       })
     } else if (item.type === 'ExportAllDeclaration') {
