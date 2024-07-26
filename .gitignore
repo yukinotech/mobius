@@ -2,7 +2,6 @@ node_modules
 build
 test-build
 tsc-build
-pnpm-lock.yaml
 code.md
 code.md
 src/version.ts
